@@ -197,7 +197,7 @@
             <div class="input" data-control-type="input"
               style="display: flex; flex-direction: column; width: 100%; justify-content: space-around;"></div>
           </div>
-          <input type="file" accept="csv" id="csv-reader" />
+          <input type="file" accept=".csv" id="csv-reader" />
 
         </template>
       </div>
@@ -219,127 +219,96 @@
       $("#wrapper").toggleClass("toggled");
     });
     window.onload = () => {
-      window.location = "data:text/csv;base64,77u/" + btoa("foo,bar\r\naaa,bbb")
+      // window.location = "data:text/csv;base64,77u/" + btoa("foo,bar\r\naaa,bbb")
       const template = document.querySelector('#quan-ly-tham-dinh-gia')
+      var itemObjs = []
 
-      // convert csv to json
-      template.content.querySelector('#csv-reader').addEventListener('change', (event) => {
-        const file = event.target.files[0]
-        var fileReader = new FileReader()
-        fileReader.onload = (e) => {
-          var csv = e.target.result
-          // console.log('result: ', e.target.result)
-          convertToJSON(csv)
-        }
-        fileReader.readAsText(file, 'ISO-8859-1')
-      })
+      // const itemObjs = [
+      //   {
+      //     metadata: {
+      //       type: "Xe",
+      //       category: "Phuong tien"
+      //     },
+      //     infos: [
+      //       {
+      //         name: 'Loai',
+      //         value: 'Oto'
+      //       },
+      //       {
+      //         name: 'Mau',
+      //         value: 'Do'
+      //       },
+      //       {
+      //         name: 'Bien-so',
+      //         value: 'Abc-Xyz123'
+      //       },
+      //       {
+      //         name: 'Ma-luc',
+      //         value: '500hp'
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     metadata: {
+      //       type: "Xe",
+      //       category: "Phuong tien"
+      //     },
+      //     infos: [
+      //       {
+      //         name: 'Loai',
+      //         value: 'Xe may'
+      //       },
+      //       {
+      //         name: 'Mau',
+      //         value: 'Xanh'
+      //       },
+      //       {
+      //         name: 'Bien-so',
+      //         value: 'Def-Xyz123'
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     metadata: {
+      //       type: "Xe",
+      //       category: "Phuong tien"
+      //     },
+      //     infos: [
+      //       {
+      //         name: 'Loai',
+      //         value: 'Tai'
+      //       },
+      //       {
+      //         name: 'Mau',
+      //         value: 'Xanh'
+      //       },
+      //       {
+      //         name: 'Trong-luong',
+      //         value: '100tan'
+      //       }
+      //     ]
+      //   }
 
-      const convertToJSON = (csv) => {
-        const lines = csv.split('\n')
-        var resultsInJSON = {}
-        const headers = lines[0].split(",")
-        // console.log('lines: ', lines)
-        // console.log('headers: ', headers)
-        for (var i = 1; i < lines.length; i++) {
-          const line = lines[i].split(",")
-          var obj = {}
-          for (var j = 0; j < line.length; j++) {
-            obj[headers[j]] = line[j]
-          }
-          resultsInJSON[i - 1] = obj
-          // results.push(obj)
-
-        }
-        console.log('results in json: ', resultsInJSON)
+      // ]
 
 
-      }
-      const itemObjs = [
-        {
-          metadata: {
-            type: "Xe",
-            category: "Phuong tien"
-          },
-          infos: [
-            {
-              name: 'Loai',
-              value: 'Oto'
-            },
-            {
-              name: 'Mau',
-              value: 'Do'
-            },
-            {
-              name: 'Bien-so',
-              value: 'Abc-Xyz123'
-            },
-            {
-              name: 'Ma-luc',
-              value: '500hp'
-            }
-          ]
-        },
-        {
-          metadata: {
-            type: "Xe",
-            category: "Phuong tien"
-          },
-          infos: [
-            {
-              name: 'Loai',
-              value: 'Xe may'
-            },
-            {
-              name: 'Mau',
-              value: 'Xanh'
-            },
-            {
-              name: 'Bien-so',
-              value: 'Def-Xyz123'
-            }
-          ]
-        },
-        {
-          metadata: {
-            type: "Xe",
-            category: "Phuong tien"
-          },
-          infos: [
-            {
-              name: 'Loai',
-              value: 'Tai'
-            },
-            {
-              name: 'Mau',
-              value: 'Xanh'
-            },
-            {
-              name: 'Trong-luong',
-              value: '100tan'
-            }
-          ]
-        }
-
-      ]
-
-      
       const labelDiv = template.content.querySelector('div[data-control-type="label"]')
       const inputDiv = template.content.querySelector('div[data-control-type="input"]')
 
       var itemLabel = []
       var uniqueItemLabel = []
       // for item metadata
-      const metadataContainer = template.content.querySelector('.metadata-container')
-      Object.keys(itemObjs[0].metadata).forEach((key, index) => {
-        const keyDiv = document.createElement('div')
-        keyDiv.style.margin = '5px'
-        keyDiv.style.fontWeight = 'bold'
-        console.log('key: ', key)
-        console.log('index: ', index)
-        keyDiv.innerHTML = key + ": " + itemObjs[0].metadata[key]
-        metadataContainer.appendChild(keyDiv)
+      // const metadataContainer = template.content.querySelector('.metadata-container')
+      // Object.keys(itemObjs[0].metadata).forEach((key, index) => {
+      //   const keyDiv = document.createElement('div')
+      //   keyDiv.style.margin = '5px'
+      //   keyDiv.style.fontWeight = 'bold'
+      //   console.log('key: ', key)
+      //   console.log('index: ', index)
+      //   keyDiv.innerHTML = key + ": " + itemObjs[0].metadata[key]
+      //   metadataContainer.appendChild(keyDiv)
 
-      })
+      // })
 
       // add label to label array only
       itemObjs.map(itemObj => {
@@ -394,9 +363,60 @@
 
 
       })
-
+      
       const clone = document.importNode(template.content, true)
       document.body.querySelector('.container-fluid').appendChild(clone)
+      // convert csv to json
+      document.querySelector('#csv-reader').addEventListener('change', (event) => {
+        console.log('abcxyz: ', template.content.querySelector('#csv-reader'))
+
+        const file = event.target.files[0]
+        var fileReader = new FileReader()
+        fileReader.onload = (e) => {
+          var csv = e.target.result
+          console.log('result: ', e.target.result)
+          convertToJSON(csv)
+        }
+        fileReader.readAsText(file, 'ISO-8859-1')
+      })
+
+      const convertToJSON = (csv) => {
+        const lines = csv.split('\n')
+        var resultsInJSON = {}
+        const type = lines[0].split(",")[0]
+        const category = lines[0].split(",")[1]
+        const typeValue = lines[1].split(",")[0]
+        const categoryValue = lines[1].split(",")[1]
+
+        const labels = lines[2].split(",")
+        console.log('lines: ', lines)
+        // console.log('labels: ', labels)
+        for (var i = 3; i < lines.length-1; i++) {
+          const line = lines[i].split(",")
+          var itemObj ={}
+          var infos = []
+          
+          for (var j = 0; j < line.length; j++) {
+            var infoObj = {}
+            infoObj["name"] = labels[j]
+            infoObj["value"] = line[j]
+            infos.push(infoObj)
+          }
+          itemObj["infos"] = infos
+          itemObj["metadata"] = {
+            type: typeValue,
+            category: categoryValue
+          }
+          resultsInJSON[i - 1] = itemObj
+          // results.push(obj)
+
+        }
+        itemObjs = Object.values(resultsInJSON)
+        console.log('result: ', itemObjs)
+
+
+      }
+
     }
   </script>
 
